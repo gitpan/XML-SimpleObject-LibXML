@@ -6,11 +6,9 @@
 # Change 1..1 below to 1..last_test_to_print .
 # (It may become useful if the test is moved to ./t subdirectory.)
 
-BEGIN { $| = 1; print "1..1\n"; }
-END {print "not ok 1\n" unless $loaded;}
+use Test::More tests => 8;
+
 use XML::SimpleObject::LibXML;
-$loaded = 1;
-print "ok 1\n";
 
 ######################### End of black magic.
 
@@ -33,16 +31,24 @@ my $XML = <<END;
 END
 
 my $parser = new XML::LibXML;
+ok($parser);
 my $xmlobj = new XML::SimpleObject::LibXML ($parser->parse_string($XML));
+ok($xmlobj);
 
-#print "Files: \n";
-#foreach my $element ($xmlobj->child("files")->children("file"))
-#{
-#  print "  filename: " . $element->child("name")->value . "\n";
-#  if ($element->attribute("type"))
-#  {
-#    print "    type: " . $element->attribute("type") . "\n";
-#  }
-#  print "    bytes: " . $element->child("bytes")->value . "\n";
-#}
+is(($xmlobj->child("files")->children("file"))[0]->child("name")->value,
+     "/etc/dosemu.conf");
+is(($xmlobj->child("files")->children("file"))[0]->attribute("type"),
+     "symlink");
+is(($xmlobj->child("files")->children("file"))[1]->child("name")->value,
+     "/etc/passwd");
+
+($xmlobj->child("files")->children("file"))[0]->child("name")->add_attribute
+     ("lang", "en");
+is(($xmlobj->child("files")->children("file"))[0]->child("name")->attribute("lang"),
+     "en");
+
+my $child = ($xmlobj->child("files")->children("file"))[0]->child("name")->add_child
+     ("tmp", "try");
+is($child->name,"tmp");
+is($child->value,"try");
 

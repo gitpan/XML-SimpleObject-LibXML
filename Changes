@@ -64,3 +64,9 @@ Revision history for Perl extension XML::SimpleObject::LibXML.
         Please send bug reports. With more tests and better docs, I want to 
         make this v1.0.
 
+0.60  Wed Nov 10 2004
+        - added changes by Philipp Knobel to simplify adding attributes and 
+          childes, with methods returning the newly created child, or $self for 
+          attributes.
+        - wrote some tests
+

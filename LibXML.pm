@@ -4,7 +4,7 @@ use strict;
 use XML::LibXML 1.53;
 use XML::LibXML::Common;
 
-our $VERSION = '0.59';
+our $VERSION = '0.60';
 
 sub attributes {
     my $self = shift;
@@ -59,6 +59,7 @@ sub attribute {
 sub add_attribute {
     my $self = shift;
     $self->{_DOM}->setAttribute( $_[0], $_[1] );
+    return $self;
 }
 
 sub value {
@@ -176,11 +177,12 @@ sub child {
 
 sub add_child {
     my $self = shift;
+    my $element = $self->{_DOM}->addNewChild( undef, $_[0]);
     if ($_[1]) {
-      $self->{_DOM}->appendTextChild($_[0], $_[1]);
-    } else {
-
+       $element->appendTextNode($_[1]);
     }
+    my $node = new XML::SimpleObject::LibXML ($element);
+    return $node;
 }
 
 sub delete {

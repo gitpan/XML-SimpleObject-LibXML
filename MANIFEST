@@ -1,7 +1,8 @@
 Changes
-MANIFEST
-Makefile.PL
-LibXML.pm
-test.pl
 ex.pl
-
+LibXML.pm
+Makefile.PL
+MANIFEST
+README
+test.pl
+META.yml                                 Module meta-data (added by MakeMaker)
